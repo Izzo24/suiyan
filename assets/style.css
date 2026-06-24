@@ -286,3 +286,11 @@ section{padding:90px 0}
 
 .carrow{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--gold);background:var(--panel);color:var(--wine)}
 .carrow:hover:not(:disabled){background:var(--wine);border-color:var(--wine);color:oklch(1 0 0)}
+
+/* header 選單靠右・排版優化 */
+.nav__in{gap:14px}
+.menu{margin-left:auto;gap:clamp(3px,.55vw,9px)}
+.menu a{padding:8px 12px}
+.nav__cta{margin-left:16px}
+.cartbtn{margin-left:8px}
+
