@@ -99,7 +99,7 @@ section{padding:90px 0}
 .stat3{text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:26px 18px;box-shadow:var(--shadow)}
 .stat3 b{display:block;font-family:var(--cor);font-size:2.6rem;font-weight:700;color:var(--wine);line-height:1}
 .stat3 span{display:block;margin-top:8px;color:var(--ink-2);font-size:.92rem}
-.rev-track{display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 18px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.rev-track{display:flex;gap:24px;overflow-x:auto;scroll-snap-type:none;padding:6px 2px 18px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .rev-track::-webkit-scrollbar{display:none}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
 .rev{flex:0 0 360px;max-width:88vw;scroll-snap-align:center;padding:28px 26px}
