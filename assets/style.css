@@ -275,3 +275,14 @@ section{padding:90px 0}
 
 /* stars */
 .stars{display:inline-block;width:120px;height:22px;margin-bottom:12px;--p:100%;background:linear-gradient(90deg,var(--gold) 0 var(--p),#e7dcd0 var(--p) 100%);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 17.3l-6.18 3.7 1.64-7.03L2 9.24l7.19-.61L12 2l2.81 6.63 7.19.61-5.46 4.73 1.64 7.03z' fill='%23000'/%3E%3C/svg%3E") 0 0/24px 24px repeat-x;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 17.3l-6.18 3.7 1.64-7.03L2 9.24l7.19-.61L12 2l2.81 6.63 7.19.61-5.46 4.73 1.64 7.03z' fill='%23000'/%3E%3C/svg%3E") 0 0/24px 24px repeat-x}
+
+/* 輪播控制：拖曳 + 箭頭 + 點 */
+.rev-track{cursor:grab}
+.rev-track.grabbing{cursor:grabbing;scroll-snap-type:none;scroll-behavior:auto;user-select:none}
+.revctrl{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:18px;flex-wrap:wrap}
+.revctrl .rev-dots{margin-top:0}
+.carrow{display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;flex:none}
+.carrow:disabled{opacity:.35;cursor:default}
+
+.carrow{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--gold);background:var(--panel);color:var(--wine)}
+.carrow:hover:not(:disabled){background:var(--wine);border-color:var(--wine);color:#fff}

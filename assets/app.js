@@ -49,28 +49,57 @@
     so.observe(stats);
   }else if(stats){runCount();}
 
-  /* reviews dots */
+  /* 評價輪播：滑鼠拖曳 + 箭頭 + 分頁點 + 鍵盤 */
   var track=$("#revTrack"), dotsBox=$("#revDots");
-  if(track&&dotsBox){
+  if(track){
     var rcards=$$(".rev",track);
-    rcards.forEach(function(_,i){
+    function step(){ return rcards.length>1 ? Math.abs(rcards[1].offsetLeft-rcards[0].offsetLeft) : Math.round(track.clientWidth*0.85); }
+    function mkArrow(dir){
       var b=document.createElement("button");
-      b.setAttribute("aria-label","跳至第 "+(i+1)+" 則評價");
-      if(i===0)b.setAttribute("aria-current","true");
-      b.addEventListener("click",function(){
-        rcards[i].scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"});
+      b.className="carrow carrow--"+dir; b.type="button";
+      b.setAttribute("aria-label",dir==="prev"?"上一則評價":"下一則評價");
+      b.innerHTML='<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="'+(dir==="prev"?"M15 5l-7 7 7 7":"M9 5l7 7-7 7")+'" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      return b;
+    }
+    var prev=mkArrow("prev"), next=mkArrow("next");
+    var ctrl=document.createElement("div"); ctrl.className="revctrl";
+    if(dotsBox&&dotsBox.parentNode){ dotsBox.parentNode.insertBefore(ctrl,dotsBox); ctrl.appendChild(prev); ctrl.appendChild(dotsBox); ctrl.appendChild(next); }
+    else { track.parentNode.appendChild(ctrl); ctrl.appendChild(prev); ctrl.appendChild(next); }
+    prev.addEventListener("click",function(){ track.scrollBy({left:-step(),behavior:"smooth"}); });
+    next.addEventListener("click",function(){ track.scrollBy({left:step(),behavior:"smooth"}); });
+
+    var dots=[];
+    if(dotsBox){
+      rcards.forEach(function(_,i){
+        var b=document.createElement("button"); b.type="button";
+        b.setAttribute("aria-label","跳至第 "+(i+1)+" 則");
+        if(i===0)b.setAttribute("aria-current","true");
+        b.addEventListener("click",function(){ rcards[i].scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"}); });
+        dotsBox.appendChild(b);
       });
-      dotsBox.appendChild(b);
-    });
-    var dots=$$("button",dotsBox);
-    track.addEventListener("scroll",function(){
+      dots=$$("button",dotsBox);
+    }
+    function sync(){
       var c=track.scrollLeft+track.clientWidth/2,best=0,bd=1e9;
-      rcards.forEach(function(card,i){
-        var cc=card.offsetLeft+card.clientWidth/2,d=Math.abs(cc-c);
-        if(d<bd){bd=d;best=i;}
-      });
-      dots.forEach(function(d,i){i===best?d.setAttribute("aria-current","true"):d.removeAttribute("aria-current");});
-    },{passive:true});
+      rcards.forEach(function(card,i){ var cc=card.offsetLeft+card.clientWidth/2,d=Math.abs(cc-c); if(d<bd){bd=d;best=i;} });
+      dots.forEach(function(d,i){ i===best?d.setAttribute("aria-current","true"):d.removeAttribute("aria-current"); });
+      prev.disabled = track.scrollLeft<=2;
+      next.disabled = track.scrollLeft >= track.scrollWidth-track.clientWidth-2;
+    }
+    track.addEventListener("scroll",sync,{passive:true});
+    window.addEventListener("resize",sync); sync();
+
+    /* 滑鼠拖曳（觸控用原生捲動，不攔截） */
+    var down=false,sx=0,sl=0,moved=false;
+    track.addEventListener("pointerdown",function(e){ if(e.pointerType!=="mouse")return; down=true;moved=false;sx=e.clientX;sl=track.scrollLeft;track.classList.add("grabbing"); try{track.setPointerCapture(e.pointerId);}catch(_){} });
+    track.addEventListener("pointermove",function(e){ if(!down)return; var dx=e.clientX-sx; if(Math.abs(dx)>4)moved=true; track.scrollLeft=sl-dx; });
+    function pUp(e){ if(!down)return; down=false; track.classList.remove("grabbing"); try{track.releasePointerCapture(e.pointerId);}catch(_){} }
+    track.addEventListener("pointerup",pUp); track.addEventListener("pointercancel",pUp); track.addEventListener("pointerleave",pUp);
+    track.addEventListener("click",function(e){ if(moved){ e.stopPropagation(); e.preventDefault(); } },true);
+
+    /* 鍵盤左右鍵 */
+    track.setAttribute("tabindex","0"); track.setAttribute("role","group"); track.setAttribute("aria-label","評價輪播，可拖曳或用箭頭切換");
+    track.addEventListener("keydown",function(e){ if(e.key==="ArrowRight"){next.click();e.preventDefault();} else if(e.key==="ArrowLeft"){prev.click();e.preventDefault();} });
   }
 
   /* star ratings */
