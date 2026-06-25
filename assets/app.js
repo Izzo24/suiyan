@@ -160,8 +160,8 @@
   cartBtn.className="cartbtn"; cartBtn.id="cartBtn";
   cartBtn.setAttribute("aria-label","開啟購物車");
   cartBtn.innerHTML=bagIcon+'<span class="cartbtn__n" id="cartCount" aria-hidden="true">0</span>';
-  var navIn=$(".nav__in");
-  if(navIn){ var bg=$("#burger"); navIn.insertBefore(cartBtn, bg||null); }
+  // 掛到 body（不放 nav）：nav 的 backdrop-filter 會讓 fixed 失效，掛 body 後 fixed 才相對視窗。
+  document.body.appendChild(cartBtn);
 
   var wrap=document.createElement("div");
   wrap.className="cartmodal"; wrap.id="cartModal";
