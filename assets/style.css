@@ -219,7 +219,7 @@ section{padding:90px 0}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}.reveal{opacity:1;transform:none}}
 
 /* ===== 購物車 / 結帳 ===== */
-.cartbtn{position:fixed;top:14px;right:24px;z-index:150;box-shadow:0 6px 20px rgba(0,0,0,.3);display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:12px;border:1.5px solid var(--c-line);background:var(--c-panel);color:var(--c-ink);cursor:pointer;transition:.2s;flex:none}
+.cartbtn{position:relative;display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:12px;border:1.5px solid var(--c-line);background:var(--c-panel);color:var(--c-ink);cursor:pointer;transition:.2s;flex:none}
 .cartbtn:hover{color:var(--c-accent);border-color:var(--c-accent)}
 .cartbtn__n{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--c-accent);color:var(--c-onacc);font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1;transform:scale(0);transition:.2s}
 .cartbtn.has .cartbtn__n{transform:scale(1)}
@@ -295,15 +295,13 @@ section{padding:90px 0}
 .cartbtn{margin-left:8px}
 
 @media(max-width:1080px){.menu{display:none}.burger{display:flex}}
-/* 手機版浮動鈕｜萃妍：酒紅底・金邊・精品低調圓鈕。 */
-@media(max-width:860px){
-  .cartbtn{top:auto;right:20px;bottom:20px;width:56px;height:56px;border-radius:50%;
-    background:var(--c-accent);color:var(--gold,#c9a24a);border:1.5px solid var(--gold,#c9a24a);
-    box-shadow:0 10px 26px rgba(0,0,0,.4)}
-  .cartbtn:hover{color:#fff;border-color:#fff}
-  .cartbtn svg{width:24px;height:24px}
-  .cartbtn__n{top:-2px;right:-2px;background:var(--gold,#c9a24a);color:#2a1a10;border:2px solid var(--c-bg,#fff)}
-  .totop{bottom:88px;right:22px}
-}
-/* 手機版：購物車鈕移出 nav 後，漢堡鈕需自行靠右（原本靠 menu/cart 推右）。 */
-@media(max-width:1080px){ .burger{margin-left:auto} }
+
+
+/* ===== 標準 header：漢堡左／Logo置中／購物車右／抽屜選單（覆寫，2026-06-25） ===== */
+.nav__in{justify-content:space-between;position:relative;gap:14px}
+.nav__in .brand{position:absolute;left:50%;transform:translateX(-50%);margin:0}
+.burger{display:flex!important;flex:none;margin-left:0!important}
+.menu{display:none!important;margin-left:0!important}
+.menu.open{display:flex!important;position:fixed;inset:74px 0 auto 0;flex-direction:column;gap:0;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 24px 22px;box-shadow:var(--shadow);transform:none!important;z-index:99}
+.menu.open a{padding:13px 6px;font-size:1.05rem;border-bottom:1px solid var(--line)}
+.cartbtn{margin-left:0!important}
